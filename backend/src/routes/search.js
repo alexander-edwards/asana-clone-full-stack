@@ -143,7 +143,8 @@ router.get('/suggestions', authMiddleware, [
     const { q } = req.query;
     const searchTerm = `${q}%`; // Prefix match for suggestions
 
-    const suggestions = await db.query(
+    // Get task suggestions
+    const taskSuggestions = await db.query(
       `SELECT title as label, 'task' as type, id
        FROM tasks
        WHERE title ILIKE $1
@@ -152,9 +153,13 @@ router.get('/suggestions', authMiddleware, [
          OR created_by = $2
          OR project_id IN (SELECT project_id FROM project_members WHERE user_id = $2)
        )
-       LIMIT 5
-       UNION ALL
-       SELECT name as label, 'project' as type, id
+       LIMIT 5`,
+      [searchTerm, req.userId]
+    );
+
+    // Get project suggestions
+    const projectSuggestions = await db.query(
+      `SELECT name as label, 'project' as type, id
        FROM projects
        WHERE name ILIKE $1
        AND (
@@ -165,7 +170,8 @@ router.get('/suggestions', authMiddleware, [
       [searchTerm, req.userId]
     );
 
-    res.json(suggestions.rows);
+    const allSuggestions = [...taskSuggestions.rows, ...projectSuggestions.rows];
+    res.json(allSuggestions);
   } catch (error) {
     console.error('Search suggestions error:', error);
     res.status(500).json({ error: 'Failed to get search suggestions' });

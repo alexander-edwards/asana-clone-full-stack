@@ -158,6 +158,12 @@ router.get('/:id', authMiddleware, [
 ], async (req, res) => {
   try {
     const { id } = req.params;
+    
+    // Validate UUID format
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(id)) {
+      return res.status(404).json({ error: 'Invalid project ID format' });
+    }
 
     // Check if user has access
     const accessCheck = await db.query(
