@@ -31,12 +31,15 @@ const useAuthStore = create((set, get) => ({
     set({ isLoading: true, error: null });
     
     try {
+      console.log('Attempting login for:', email);
       const response = await authAPI.login({ email, password });
+      console.log('Login response:', response);
       const { token, user } = response.data;
       
       // Save to localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
+      console.log('Saved to localStorage:', { token: token?.substring(0, 20) + '...', user });
       
       // Update store
       set({
@@ -51,6 +54,7 @@ const useAuthStore = create((set, get) => ({
       
       return { success: true };
     } catch (error) {
+      console.error('Login error:', error);
       set({
         error: error.response?.data?.error || 'Login failed',
         isLoading: false,

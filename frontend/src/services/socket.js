@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3001';
+const WS_URL = import.meta.env.VITE_WS_URL || 'wss://asana-backend-new-morphvm-s6un9i69.http.cloud.morph.so';
 
 class SocketService {
   constructor() {

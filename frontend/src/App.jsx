@@ -40,7 +40,7 @@ function App() {
   useEffect(() => {
     // Initialize auth state from localStorage
     initialize();
-  }, []);
+  }, [initialize]);
 
   return (
     <Router>

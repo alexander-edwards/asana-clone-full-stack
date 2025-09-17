@@ -19,10 +19,13 @@ export default function Login() {
   } = useForm();
 
   const onSubmit = async (data) => {
+    console.log('Submitting login with:', data);
     const result = await login(data.email, data.password);
+    console.log('Login result:', result);
     if (result.success) {
       toast.success('Welcome back!');
-      navigate('/');
+      // Force a full page reload to ensure state is updated
+      window.location.href = '/';
     } else {
       toast.error(result.error || 'Login failed');
     }

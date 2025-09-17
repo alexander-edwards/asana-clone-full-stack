@@ -21,7 +21,7 @@ export default function Register() {
     const result = await registerUser(data);
     if (result.success) {
       toast.success('Account created successfully!');
-      navigate('/');
+      window.location.href = '/';
     } else {
       toast.error(result.error || 'Registration failed');
     }
