@@ -22,7 +22,11 @@ const useAuthStore = create((set, get) => ({
       });
       
       // Connect WebSocket
-      socketService.connect(JSON.parse(user).id);
+      try {
+        socketService.connect(JSON.parse(user).id);
+      } catch (wsError) {
+        console.error('WebSocket init error:', wsError);
+      }
     }
   },
 
@@ -50,7 +54,12 @@ const useAuthStore = create((set, get) => ({
       });
       
       // Connect WebSocket
-      socketService.connect(user.id);
+      try {
+        socketService.connect(user.id);
+      } catch (wsError) {
+        console.error('WebSocket connection error:', wsError);
+        // Continue anyway, WebSocket is not critical for login
+      }
       
       return { success: true };
     } catch (error) {
@@ -84,7 +93,11 @@ const useAuthStore = create((set, get) => ({
       });
       
       // Connect WebSocket
-      socketService.connect(user.id);
+      try {
+        socketService.connect(user.id);
+      } catch (wsError) {
+        console.error('WebSocket register error:', wsError);
+      }
       
       return { success: true };
     } catch (error) {

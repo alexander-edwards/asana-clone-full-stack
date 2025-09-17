@@ -13,6 +13,12 @@ export default defineConfig({
       protocol: 'wss'
     }
   },
+  preview: {
+    port: 5173,
+    host: '0.0.0.0',
+    strictPort: true,
+    allowedHosts: ['asana-clone-ui-morphvm-s6un9i69.http.cloud.morph.so', 'localhost']
+  },
   build: {
     outDir: 'dist',
     sourcemap: true,

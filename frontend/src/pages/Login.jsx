@@ -24,8 +24,8 @@ export default function Login() {
     console.log('Login result:', result);
     if (result.success) {
       toast.success('Welcome back!');
-      // Force a full page reload to ensure state is updated
-      window.location.href = '/';
+      // Navigate to dashboard
+      navigate('/');
     } else {
       toast.error(result.error || 'Login failed');
     }
